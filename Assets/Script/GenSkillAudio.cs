@@ -20,7 +20,7 @@ public class GenSkillAudio : MonoBehaviour
     }, o =>
     {
         o.SetActive(false);
-    }, o => DestroyImmediate(o), true, 8, 8);
+    }, o => Destroy(o), true, 8, 8);
 
     private static GameObject CreateFunc()
     {

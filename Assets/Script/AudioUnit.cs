@@ -1,13 +1,17 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
+using AOT;
+using FMOD;
+using FMOD.Studio;
+using FMODUnity;
+using Unity.VisualScripting;
 using UnityEngine;
+using Debug = UnityEngine.Debug;
 
 public class AudioUnit : MonoBehaviour
 {
-    private AudioSource _audioSource;
+    private bool needRelease = false;
+    private StudioEventEmitter _audioSource;
     private GenSkillAudio mgr;
-    private float waitTime = 0;
     public void SetMgr(GenSkillAudio mgr)
     {
         this.mgr = mgr;
@@ -15,22 +19,11 @@ public class AudioUnit : MonoBehaviour
 
     public void Awake()
     {
-        _audioSource = GetComponent<AudioSource>();
-        AudioClip clip = _audioSource.clip;
-        waitTime = clip.length;
+        _audioSource = GetComponent<StudioEventEmitter>();
     }
 
     public void Play()
     {
         _audioSource.Play();
-        StartCoroutine(StopAndReturn());
-    }
-
-    IEnumerator StopAndReturn()
-    {
-        yield return new WaitForSeconds(waitTime);
-        _audioSource.Stop();
-        mgr.ReturnAudioGO(gameObject);
-        yield break;
     }
 }
